@@ -1,41 +1,71 @@
 #include <stdio.h>
 #include <math.h>
-
+#include <stdlib.h>
+#include <string.h>
 /*
  * 17. Letter Combinations of a Phone Number
  * Given a digit string, return all possible 
  * letter combinations that the number could represent.
  *
- * Runtime: 16ms
+ * Runtime: 3ms
  */
 
-char** letters = {
-  {' ', '^', '^', '^'},
-  {'^', '^', '^', '^'},
-  {'a', 'b', 'c', '^'},
-  {'d', 'e', 'f', '^'},
-  {'g', 'h', 'i', '^'},
-  {'j', 'k', 'l', '^'},
-  {'m', 'n', 'o', '^'},
-  {'p', 'q', 'r', 's'},
-  {'t', 'u', 'v', '^'},
-  {'w', 'x', 'y', 'z'}
-}
+
+char* letters = " _______abc_def_ghi_jkl_mno_pqrstuv_wxyz";
+int lens[10] = {1, 0, 3, 3, 3, 3, 3, 4, 3, 4};
 
 /**
  * Return an array of size *returnSize.
  * Note: The returned array must be malloced, assume caller calls free().
  */
 char** letterCombinations(char* digits, int* returnSize) {
-  int l = 0;
-  for(; digits[l] != '\0'; l++);
-  char** result = (char*)malloc(sizeof(char*) * pow(4, l));
+  if(digits[0] == '\0') return NULL;
 
-  int i = 0;
-  for(; digits[i] != '\0'; i++) {
-    
+  /*
+  * DECLARATIONS
+  */
+  int num, numDigits, i, k, idx;
+  int offset, totalSize, repSize;
+  char** ret;
+
+  /*
+  * COMPUTE TOTAL SIZE
+  */
+  totalSize = 1;
+  for(numDigits = 0; digits[numDigits] != '\0'; numDigits++) {
+    num = digits[numDigits] - 48;
+    if(num < 2) return NULL;
+
+    totalSize *= lens[num];
   }
-  return NULL;   
+
+  /*
+  * ALLOCATE RETURN ARRAY MEMORY
+  */
+  repSize = *returnSize = totalSize;
+  ret = (char**) malloc(sizeof(char*) * totalSize);
+  for(k = 0; k < totalSize; k++) {
+    ret[k] = (char*) malloc(sizeof(char) * (numDigits+1));
+    ret[k][numDigits] = '\0';
+  }
+
+  /*
+  * BUILD STRINGS
+  */
+  for(i = 0; i < numDigits; i++) {
+    offset = -1;
+    num = digits[i] - 48;
+    repSize = repSize / lens[num];
+
+    for(k = 0; k < totalSize; k++) {
+      if(k % repSize == 0) {
+        offset += 1;
+      }
+      idx = (num * 4) + (offset % lens[num]);
+      ret[k][i] = letters[idx];
+    }
+  }
+  return ret;  
 }
 
 int main(int argc, char** argv) {
@@ -50,6 +80,8 @@ int main(int argc, char** argv) {
   int i = 0;
   for(; i < retSize; i++) {
     printf("%s\n", combos[i]);
+    free(combos[i]);
   }
+  free(combos);
   return 0;
 }
