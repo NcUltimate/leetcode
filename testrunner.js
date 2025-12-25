@@ -1,5 +1,5 @@
 const fs = require('fs');
-eval(fs.readFileSync('./0013_roman_to_int.js', 'utf8'));
+eval(fs.readFileSync('./0014_longest_common_prefix.js', 'utf8'));
 
 const ListNode = (val) => ({ val, next: null });
 
@@ -14,15 +14,12 @@ const createLinkedList = (arr) => {
 }
 
 const testInputs = [
-    'MCDXLIV',
-    'MMMIII',
-    'IV',
-    'IX',
-    'XXXVI',
-    'MDCCCLXXXVIII'
+    ['flower', 'flow', 'flight'],
+    ['dog', 'racecar', 'car'],
+    ['apple', 'apples', 'applesauce'],
 ];
 
-const solution = romanToInt;
+const solution = longestCommonPrefix;
 
 testInputs.forEach((input, i) => {
     const result = solution(input);
