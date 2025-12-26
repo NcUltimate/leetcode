@@ -1,5 +1,5 @@
 const fs = require('fs');
-eval(fs.readFileSync('./0002_add_two_numbers.js', 'utf8'));
+eval(fs.readFileSync('./0022_generate_parenthesis.js', 'utf8'));
 
 const ListNode = (val) => ({ val, next: null });
 
@@ -14,12 +14,12 @@ const createLinkedList = (arr) => {
 }
 
 const testInputs = [
-    [createLinkedList([2, 4, 3]), createLinkedList([5, 6, 4])],
-    [createLinkedList([0]), createLinkedList([0])],
-    [createLinkedList([9, 9, 9, 9, 9, 9, 9]), createLinkedList([9, 9, 9, 9])],
+    1,
+    3,
+    5
 ];
 
-const solution = addTwoNumbers;
+const solution = generateParenthesis;
 
 testInputs.forEach((input, i) => {
     const result = solution(input);
